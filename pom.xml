@@ -7,7 +7,10 @@
     <groupId>org.aming</groupId>
     <artifactId>aming.code</artifactId>
     <version>1.0.0</version>
-    <packaging>jar</packaging>
+    <modules>
+        <module>aming-core</module>
+    </modules>
+    <packaging>pom</packaging>
 
     <name>Aming Code</name>
     <description>Aming Code</description>

@@ -9,6 +9,7 @@
     <version>1.0.0</version>
     <modules>
         <module>aming-core</module>
+        <module>aming-sftp</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -19,6 +20,15 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+
+        <commons.pools.version>2.4.3</commons.pools.version>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+            <version>${commons.pools.version}</version>
+        </dependency>
+    </dependencies>
 </project>

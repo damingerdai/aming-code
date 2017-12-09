@@ -6,15 +6,15 @@ import org.aming.core.exceptions.AmingException;
  * @author daming
  * @version 2017/12/2.
  */
-public class SftpException extends AmingException {
+public class SftpAccessException extends AmingException {
 
 
 
-    public SftpException(String message) {
+    public SftpAccessException(String message) {
         super(message);
     }
 
-    public SftpException(String message, Throwable cause) {
+    public SftpAccessException(String message, Throwable cause) {
         super(message, cause);
     }
 }

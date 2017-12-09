@@ -10,6 +10,7 @@
     <modules>
         <module>aming-core</module>
         <module>aming-sftp</module>
+        <module>aming-csv</module>
     </modules>
     <packaging>pom</packaging>
 

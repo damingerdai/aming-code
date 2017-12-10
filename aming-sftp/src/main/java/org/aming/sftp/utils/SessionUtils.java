@@ -11,7 +11,7 @@ import org.aming.sftp.support.SftpAccessException;
  */
 public class SessionUtils {
 
-    public Channel openChannel(Session session) throws SftpAccessException {
+    public static Channel openChannel(Session session) throws SftpAccessException {
         if(session != null) {
             throw new SftpAccessException("session is required");
         }
@@ -27,7 +27,7 @@ public class SessionUtils {
         }
     }
 
-    public void releaseChannel(Session session, Channel channel) throws SftpAccessException {
+    public static void releaseChannel(Session session, Channel channel) throws SftpAccessException {
         if(channel != null) {
             channel.disconnect();
             // channel.getSession()

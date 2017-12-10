@@ -6,6 +6,7 @@ import java.io.Serializable;
  * @author daming
  * @version 2017/12/2.
  */
+@Deprecated
 public class SftpClientConfigure implements Serializable {
 
     private static final long serialVersionUID = 9141992389315558432L;

@@ -2,18 +2,27 @@ package org.aming.csv.support;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author daming
  * @version 2017/12/9.
  */
-public final class HeadersHolder {
+public final class HeadersHolder extends LinesHolder {
 
     private String[] headers;
-
-    private int length;
-
+    private boolean ignoreCase;
     private Map<String,Integer> indexByName;
+    
+    @Override
+	public String[] getLines() {
+    	return getHeaders();
+	}
+ 
+	@Override
+	public int getRowIndex() {
+		return 1;
+	}
 
     public String[] getHeaders() {
         return headers;
@@ -38,6 +47,29 @@ public final class HeadersHolder {
     public void setIndexByName(Map<String, Integer> indexByName) {
         this.indexByName = indexByName;
     }
+    
+    public void put(String key, Integer value) {
+        if (indexByName == null) {
+            indexByName = new HashMap<String, Integer>(this.length);
+        }
+        if (ignoreCase) {
+        	// 忽略大小的话就直接放小写
+        	key = key.toLowerCase();
+        }
+        indexByName.put(key, value);
+    }
+    
+    public Integer get(String key) {
+    	if (Objects.isNull(indexByName)) {
+    		return -1;
+    	} 
+    	
+    	if(ignoreCase) {
+    		// 忽略大小的话就直接放小写
+        	key = key.toLowerCase();
+    	}
+    	return indexByName.get(key);
+    }
 
     private HeadersHolder() {
         super();
@@ -45,8 +77,19 @@ public final class HeadersHolder {
         this.length = 0;
         this.indexByName = new HashMap<String, Integer>(length);
     }
+    
+    
+    private HeadersHolder(boolean ignoreCase) {
+    	this();
+    	this.ignoreCase = ignoreCase;
+    }
+    
 
     public static HeadersHolder getHeadersHolder() {
         return new HeadersHolder();
+    }
+    
+    public static HeadersHolder getHeadersHolder(boolean ignoreCase) {
+        return new HeadersHolder(ignoreCase);
     }
 }

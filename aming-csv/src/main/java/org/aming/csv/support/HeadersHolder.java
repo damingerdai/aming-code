@@ -23,29 +23,27 @@ public final class HeadersHolder extends LinesHolder {
 	public int getRowIndex() {
 		return 1;
 	}
+ 
 
     public String[] getHeaders() {
-        return headers;
+        String[] clone = new String[headers.length];
+        System.arraycopy(headers, 0, clone, 0, headers.length);
+        return clone;
     }
 
-    public void setHeaders(String[] headers) {
-        this.headers = headers;
-    }
 
+    @Override
     public int getLength() {
         return length;
     }
 
-    public void setLength(int length) {
-        this.length = length;
-    }
-
-    public Map<String, Integer> getIndexByName() {
-        return indexByName;
-    }
-
-    public void setIndexByName(Map<String, Integer> indexByName) {
-        this.indexByName = indexByName;
+    private void initIndexByName() {
+        if(indexByName == null) {
+            indexByName = new HashMap<String, Integer>(length);
+        }
+        for(int i=0; i < headers.length; i++) {
+            indexByName.put(headers[i], i);
+        }
     }
     
     public void put(String key, Integer value) {
@@ -70,26 +68,33 @@ public final class HeadersHolder extends LinesHolder {
     	}
     	return indexByName.get(key);
     }
-
-    private HeadersHolder() {
-        super();
-        this.headers = new String[0];
-        this.length = 0;
-        this.indexByName = new HashMap<String, Integer>(length);
-    }
     
+    public Map<String, Integer> getIndexByName() {
+    	return indexByName;
+    }
+
+    public static HeadersHolder getInstance(String[] headers) {
+        return new HeadersHolder(headers);
+    }
+    public HeadersHolder(String[] headers) {
+        super();
+        this.headers = new String[headers.length];
+        System.arraycopy(this.headers, 0, headers, 0, this.headers.length);
+        this.length = headers.length;
+        initIndexByName();
+    }
+
     
     private HeadersHolder(boolean ignoreCase) {
-    	this();
+    	
     	this.ignoreCase = ignoreCase;
     }
     
 
-    public static HeadersHolder getHeadersHolder() {
-        return new HeadersHolder();
-    }
+    
     
     public static HeadersHolder getHeadersHolder(boolean ignoreCase) {
         return new HeadersHolder(ignoreCase);
     }
+ 
 }

@@ -10,6 +10,7 @@ import org.aming.csv.support.LinesHolder;
 
 import com.opencsv.CSVReader;
 
+
 /**
  * @author daming
  * @version 2017/12/9.
@@ -76,30 +77,21 @@ public class CsvReader implements Closeable {
     	return getValues()[getIndex(header)];
     }
     
-    private void initHeaders(String[] headers) {
-        headersHolder.setHeaders(headers);
-        headersHolder.getIndexByName().clear();
-        if (headers != null) {
-            headersHolder.setLength(headers.length);
-        }
-
-        for (int i = 0; i < headersHolder.getLength(); i++) {
-            headersHolder.put(headers[i], i);
-        }
-    }
-
+    
     public CsvReader(CSVReader csvReader) {
         super();
         this.csvReader = Optional.of(csvReader);
         this.linesHolder = LinesHolder.getInstance();
     }
+ 
     
     public CsvReader(CSVReader csvReader, boolean ignoreCaseHeader) {
     	 super();
          this.csvReader = Optional.of(csvReader);
          this.linesHolder = LinesHolder.getInstance();
          this.headersHolder = HeadersHolder.getHeadersHolder(ignoreCaseHeader);
-    }
+ 
+
 
 	@Override
 	public void close() throws IOException {

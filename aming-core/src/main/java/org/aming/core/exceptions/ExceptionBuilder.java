@@ -26,4 +26,12 @@ public class ExceptionBuilder {
                 cause
         );
     }
+
+    public static RuntimeException buildRuntimeException(String message) {
+        return new RuntimeException(message);
+    }
+
+    public static RuntimeException buildRuntimeException(String format, Object...params) {
+        return new RuntimeException(MessageFormat.format(format, params));
+    }
 }

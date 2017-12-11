@@ -10,5 +10,5 @@ public interface SftpOperations {
 
     void upload(String remotePath, File file) throws SftpAccessException;
 
-    void download(String remotePath, String fileName) throws SftpAccessException;
+    void download(String remotePath, String fileName, String localPath) throws SftpAccessException;
 }

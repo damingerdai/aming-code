@@ -55,6 +55,7 @@ public final class HeadersHolder extends LinesHolder {
         	key = key.toLowerCase();
         }
         indexByName.put(key, value);
+        length ++ ;
     }
     
     public Integer get(String key) {

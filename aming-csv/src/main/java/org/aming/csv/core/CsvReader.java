@@ -49,6 +49,16 @@ public class CsvReader implements Closeable {
             return clone;
         }
     }
+
+    private void initHeaders(String[] lines) {
+        if(lines == null) {
+            throw new IllegalArgumentException("headers is required");
+        }
+
+        for(int i=0; i < lines.length; i++) {
+
+        }
+    }
     
     public int getIndex(String headerName) throws Exception {
         try {
@@ -86,12 +96,12 @@ public class CsvReader implements Closeable {
  
     
     public CsvReader(CSVReader csvReader, boolean ignoreCaseHeader) {
-    	 super();
-         this.csvReader = Optional.of(csvReader);
-         this.linesHolder = LinesHolder.getInstance();
-         this.headersHolder = HeadersHolder.getHeadersHolder(ignoreCaseHeader);
- 
+        super();
+        this.csvReader = Optional.of(csvReader);
+        this.linesHolder = LinesHolder.getInstance();
+        this.headersHolder = HeadersHolder.getHeadersHolder(ignoreCaseHeader);
 
+    }
 
 	@Override
 	public void close() throws IOException {

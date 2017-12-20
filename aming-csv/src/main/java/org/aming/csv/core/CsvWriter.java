@@ -28,11 +28,19 @@ public class CsvWriter implements Closeable {
 
     private int bufferSize = DEFAULT_BUFFER_SIZE;
 
-    public void writeNextLine() {
+    public void writeNextLine(Map<String, String> lineMap) {
+        String[] line = new String[lineMap.size()];
 
+        lineMap.forEach( (k, v) -> {
+            int index = headersHolder.get(k);
+            if(index > 0 && index < line.length) {
+                line[index] = v;
+            }
+        });
+        writeNextLine(line);
     }
 
-    public void writeNexLine(String[] line) {
+    public void writeNextLine(String[] line) {
         buffer.add(line);
     }
 

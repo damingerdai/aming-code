@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Function;
 
 /**
  * @author daming
@@ -27,6 +28,10 @@ public class CsvWriter implements Closeable {
     private Map<String, Integer> headersHolder;
 
     private int bufferSize = DEFAULT_BUFFER_SIZE;
+
+    public <T> void writeNextLine(T t, Function<T, String[]> action) {
+        writeNextLine(action.apply(t));
+    }
 
     public void writeNextLine(Map<String, String> lineMap) {
         String[] line = new String[lineMap.size()];

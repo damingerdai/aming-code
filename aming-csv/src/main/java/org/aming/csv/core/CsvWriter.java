@@ -45,53 +45,62 @@ public class CsvWriter implements Closeable {
         writeNextLine(line);
     }
 
+    public void writeNextLine(String[] line, boolean isWrited) {
+        buffer.add(line);
+        if(isWrited) {
+            refresh();
+        }
+    }
+
     public void writeNextLine(String[] line) {
         buffer.add(line);
     }
 
     public void doWrite() {
         if (buffer.size() > bufferSize) {
-            csvWriter.get().writeAll(buffer);
+            refresh();
         }
-        buffer.clear();
+
     }
 
     public void refresh() {
         if (!buffer.isEmpty()) {
             csvWriter.get().writeAll(buffer);
+            buffer.clear();
         }
-        buffer.clear();
     }
 
-    public void doWriteLine(String[] line) {
-        buffer.add(line);
-        csvWriter.get().writeAll(buffer);
-    }
 
     public CsvWriter(CSVWriter csvWriter, String[] headers) {
-        super();
-        this.csvWriter = Optional.of(csvWriter);
-        this.buffer = new ArrayList<>( headers != null ? headers.length : 16);
-        initHeaders(headers);
+        this(csvWriter, headers, DEFAULT_BUFFER_SIZE);
     }
+
 
     public CsvWriter(CSVWriter csvWriter, String[] headers, int bufferSize) {
-        this(csvWriter, headers);
-        this.bufferSize = bufferSize;
+        super();
+        this.csvWriter = Optional.of(csvWriter);
     }
 
-    protected void initHeaders(String[] headers) {
-        if (headers == null) {
+    protected void init(String[] headers, int bufferSize) {
+        if (Objects.isNull(headers)) {
             throw new IllegalArgumentException("headers is required");
         }
 
-        if (Objects.isNull(headersHolder)) {
-            headersHolder = new HashMap<>(headers.length);
-        }
+        initBuffer(headers.length, bufferSize);
+        initHeaders(headers);
+    }
+
+    private void initBuffer(int length, int bufferSize) {
+        this.buffer = new ArrayList<>(length);
+        this.bufferSize  = bufferSize;
+    }
+
+    private void initHeaders(String[] headers) {
+        Map<String, Integer> tempMap = new HashMap<>(headers.length);
         for (int i = 0; i < headers.length; i++) {
             headersHolder.put(headers[i], i);
         }
-
+        headersHolder = Collections.unmodifiableMap(tempMap);
         csvWriter.get().writeNext(headers);
     }
 

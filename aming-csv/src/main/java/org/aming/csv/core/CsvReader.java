@@ -30,7 +30,7 @@ public class CsvReader implements Closeable {
     	String[] lines = csvReader.get().readNext();
     	if(lines != null && lines.length > 0) {
     		int rowIndex = linesHolder.getRowIndex();
-    		linesHolder = LinesHolder.getInstance(lines, rowIndex + 1);
+    		linesHolder =  null;// LinesHolder.getInstance(lines, rowIndex + 1);
     		if(rowIndex == 0) {
     			initHeaders(lines);  
     		}

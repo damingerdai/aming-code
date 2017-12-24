@@ -79,6 +79,7 @@ public class CsvWriter implements Closeable {
     public CsvWriter(CSVWriter csvWriter, String[] headers, int bufferSize) {
         super();
         this.csvWriter = Optional.of(csvWriter);
+        init(headers, bufferSize);
     }
 
     protected void init(String[] headers, int bufferSize) {

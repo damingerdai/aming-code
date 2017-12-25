@@ -30,7 +30,7 @@ public class CsvReader implements Closeable {
     	String[] lines = csvReader.get().readNext();
     	if(lines != null && lines.length > 0) {
     		int rowIndex = linesHolder.getRowIndex();
-    		linesHolder = LinesHolder.getInstance(lines, rowIndex + 1);
+    		linesHolder =  null;// LinesHolder.getInstance(lines, rowIndex + 1);
     		if(rowIndex == 0) {
     			//initHeaders(lines);  
     		}
@@ -47,6 +47,16 @@ public class CsvReader implements Closeable {
             String[] clone = new String[headersHolder.getLength()];
             System.arraycopy(headersHolder.getHeaders(), 0, clone, 0, headersHolder.getLength());
             return clone;
+        }
+    }
+
+    private void initHeaders(String[] lines) {
+        if(lines == null) {
+            throw new IllegalArgumentException("headers is required");
+        }
+
+        for(int i=0; i < lines.length; i++) {
+
         }
     }
     
@@ -90,8 +100,8 @@ public class CsvReader implements Closeable {
          this.csvReader = Optional.of(csvReader);
          this.linesHolder = LinesHolder.getInstance();
          this.headersHolder = HeadersHolder.getHeadersHolder(ignoreCaseHeader);
-    }
 
+    }
 
 	@Override
 	public void close() throws IOException {

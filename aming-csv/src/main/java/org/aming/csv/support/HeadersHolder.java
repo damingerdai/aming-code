@@ -32,14 +32,14 @@ public final class HeadersHolder extends LinesHolder {
     }
 
 
-    @Override
+     
     public int getLength() {
-        return length;
+        return 0;
     }
 
     private void initIndexByName() {
         if(indexByName == null) {
-            indexByName = new HashMap<String, Integer>(length);
+            indexByName = new HashMap<String, Integer>(0);
         }
         for(int i=0; i < headers.length; i++) {
             indexByName.put(headers[i], i);
@@ -48,13 +48,14 @@ public final class HeadersHolder extends LinesHolder {
     
     public void put(String key, Integer value) {
         if (indexByName == null) {
-            indexByName = new HashMap<String, Integer>(this.length);
+            indexByName = new HashMap<String, Integer>(0);
         }
         if (ignoreCase) {
         	// 忽略大小的话就直接放小写
         	key = key.toLowerCase();
         }
         indexByName.put(key, value);
+        
     }
     
     public Integer get(String key) {
@@ -80,7 +81,7 @@ public final class HeadersHolder extends LinesHolder {
         super();
         this.headers = new String[headers.length];
         System.arraycopy(this.headers, 0, headers, 0, this.headers.length);
-        this.length = headers.length;
+        //this.length = headers.length;
         initIndexByName();
     }
 

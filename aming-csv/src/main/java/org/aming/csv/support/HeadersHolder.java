@@ -89,9 +89,7 @@ public final class HeadersHolder extends LinesHolder {
     	
     	this.ignoreCase = ignoreCase;
     }
-    
-
-    
+   
     
     public static HeadersHolder getHeadersHolder(boolean ignoreCase) {
         return new HeadersHolder(ignoreCase);

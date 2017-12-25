@@ -32,7 +32,7 @@ public class CsvReader implements Closeable {
     		int rowIndex = linesHolder.getRowIndex();
     		linesHolder = LinesHolder.getInstance(lines, rowIndex + 1);
     		if(rowIndex == 0) {
-    			initHeaders(lines);  
+    			//initHeaders(lines);  
     		}
     		return true;
     	} else {
@@ -90,7 +90,7 @@ public class CsvReader implements Closeable {
          this.csvReader = Optional.of(csvReader);
          this.linesHolder = LinesHolder.getInstance();
          this.headersHolder = HeadersHolder.getHeadersHolder(ignoreCaseHeader);
- 
+    }
 
 
 	@Override

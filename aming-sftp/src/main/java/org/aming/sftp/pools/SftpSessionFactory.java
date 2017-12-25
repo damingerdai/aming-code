@@ -61,6 +61,18 @@ public class SftpSessionFactory extends BasePooledObjectFactory<Session> {
             throw SftpExceptionBuilder.buildSftpException("fail to destroy session", ex);
         }
     }
+    
+    @Override
+    public boolean validateObject(PooledObject<Session> p) {
+    	if(Objects.isNull(p)) {
+    		return false;
+    	}
+    	Session session = p.getObject();
+    	if(Objects.isNull(session)) {
+    		return false;
+    	}
+    	return session.isConnected();
+    }
 
     public SftpSessionFactory(SftpConfigure sftpConfigure) {
         super();

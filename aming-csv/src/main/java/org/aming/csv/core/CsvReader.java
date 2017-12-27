@@ -41,9 +41,8 @@ public class CsvReader implements Closeable {
 
             return true;
         } else {
-    	    return false;
+            return false;
         }
-
     }
 
     public String[] getHeaders() {
@@ -87,13 +86,12 @@ public class CsvReader implements Closeable {
         this.linesHolder = LinesHolder.getInstance();
     }
  
-    
+
     public CsvReader(CSVReader csvReader, boolean ignoreCase) {
         super();
         this.csvReader = Optional.of(csvReader);
         this.linesHolder = LinesHolder.getInstance();
         this.ignoreCase = ignoreCase;
-
     }
 
 	@Override

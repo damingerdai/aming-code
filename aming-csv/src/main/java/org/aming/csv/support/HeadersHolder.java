@@ -32,6 +32,7 @@ public final class HeadersHolder extends LinesHolder {
     }
 
 
+
     private void initIndexByName() {
         if(indexByName == null) {
             indexByName = new HashMap<String, Integer>();
@@ -79,6 +80,7 @@ public final class HeadersHolder extends LinesHolder {
         super(headers, 0);
     	this.ignoreCase = ignoreCase;
     }
+
 
     public static HeadersHolder getInstance(String[] headers) {
         return new HeadersHolder(headers);

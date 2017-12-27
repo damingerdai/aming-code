@@ -2,6 +2,7 @@ package org.aming.csv.support;
 
 import com.opencsv.CSVWriter;
 import org.aming.csv.core.CsvWriter;
+import org.aming.csv.support.ICsvWriterBuilder;
 
 import java.io.Writer;
 import java.util.Objects;
@@ -11,7 +12,7 @@ import java.util.Optional;
  * @author daming
  * @version 2017/12/21.
  */
-public class ComplexCsvWriterBuilder implements ICsvWriterBuilder{
+public class ComplexCsvWriterBuilder implements ICsvWriterBuilder {
 
     private static final char DEFAULT_SEPARATOR = ',';
     private static final char DEFAULT_QUOTECHAR = '"';

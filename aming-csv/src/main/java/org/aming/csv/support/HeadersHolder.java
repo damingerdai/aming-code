@@ -1,5 +1,7 @@
 package org.aming.csv.support;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -11,7 +13,7 @@ import java.util.Objects;
 public final class HeadersHolder extends LinesHolder {
 
     private String[] headers;
-    private boolean ignoreCase;
+    private boolean ignoreCase = false;
     private Map<String,Integer> indexByName;
     
     @Override
@@ -20,26 +22,19 @@ public final class HeadersHolder extends LinesHolder {
 	}
  
 	@Override
-	public int getRowIndex() {
+	public int getIndex() {
 		return 1;
 	}
  
 
     public String[] getHeaders() {
-        String[] clone = new String[headers.length];
-        System.arraycopy(headers, 0, clone, 0, headers.length);
-        return clone;
+        return Arrays.copyOf(headers, headers.length);
     }
 
-
-    @Override
-    public int getLength() {
-        return length;
-    }
 
     private void initIndexByName() {
         if(indexByName == null) {
-            indexByName = new HashMap<String, Integer>(length);
+            indexByName = new HashMap<String, Integer>();
         }
         for(int i=0; i < headers.length; i++) {
             indexByName.put(headers[i], i);
@@ -48,14 +43,13 @@ public final class HeadersHolder extends LinesHolder {
     
     public void put(String key, Integer value) {
         if (indexByName == null) {
-            indexByName = new HashMap<String, Integer>(this.length);
+            indexByName = new HashMap<String, Integer>();
         }
         if (ignoreCase) {
         	// 忽略大小的话就直接放小写
         	key = key.toLowerCase();
         }
         indexByName.put(key, value);
-        length ++ ;
     }
     
     public Integer get(String key) {
@@ -71,31 +65,26 @@ public final class HeadersHolder extends LinesHolder {
     }
     
     public Map<String, Integer> getIndexByName() {
-    	return indexByName;
+    	return Collections.unmodifiableMap(indexByName);
+    }
+
+
+    public HeadersHolder(String[] headers) {
+        super(headers, 0);
+        initIndexByName();
+    }
+
+    
+    private HeadersHolder(String[] headers, boolean ignoreCase) {
+        super(headers, 0);
+    	this.ignoreCase = ignoreCase;
     }
 
     public static HeadersHolder getInstance(String[] headers) {
         return new HeadersHolder(headers);
     }
-    public HeadersHolder(String[] headers) {
-        super();
-        this.headers = new String[headers.length];
-        System.arraycopy(this.headers, 0, headers, 0, this.headers.length);
-        this.length = headers.length;
-        initIndexByName();
-    }
 
-    
-    private HeadersHolder(boolean ignoreCase) {
-    	
-    	this.ignoreCase = ignoreCase;
+    public static HeadersHolder getInstance(String[] headers, boolean ignoreCase) {
+        return new HeadersHolder(headers, ignoreCase);
     }
-    
-
-    
-    
-    public static HeadersHolder getHeadersHolder(boolean ignoreCase) {
-        return new HeadersHolder(ignoreCase);
-    }
- 
 }

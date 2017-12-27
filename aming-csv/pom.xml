@@ -25,10 +25,17 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.aming</groupId>
+            <artifactId>aming.core</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.opencsv</groupId>
             <artifactId>opencsv</artifactId>
             <version>4.1</version>
         </dependency>
+
     </dependencies>
 
 </project>

@@ -1,6 +1,7 @@
 package org.aming.core.utils;
 
 import java.util.Objects;
+import java.util.function.Predicate;
 
 /**
  * @author daming
@@ -14,7 +15,13 @@ public final class Assert {
         }
     }
 
-    public static void notBank(String str, String message) {
+    public static <T> void notBlank(T t, String message, Predicate<T> action) {
+         if(action.test(t))  {
+             throw new IllegalArgumentException(message);
+         }
+    }
+
+    public static void notBlank(String str, String message) {
         if(Objects.isNull(str) || str.trim().isEmpty()) {
             throw new IllegalArgumentException(message);
         }

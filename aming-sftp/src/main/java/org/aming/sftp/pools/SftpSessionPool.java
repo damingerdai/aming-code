@@ -37,25 +37,21 @@ public class SftpSessionPool extends GenericObjectPool<Session> {
 
     @Override
     public void returnObject(Session session) {
-        if(Objects.isNull(session) || !session.isConnected()) {
-            session.disconnect();
+        if (Objects.nonNull(session)) {
+            if (session.isConnected()) {
+                session.disconnect();
+            }
             super.returnObject(session);
-            return;
-        }
-        session = null;
-
-        try {
-            addObject();
-        } catch (Exception ex) {
-            logger.error("fail to return session", ex);
-            throw SftpExceptionBuilder.buildRuntimeException("fail to return session");
+        } else {
+            try {
+                addObject();
+            } catch (Exception ex) {
+                logger.error("fail to return session", ex);
+                throw SftpExceptionBuilder.buildRuntimeException("fail to return session");
+            }
         }
     }
 
-    @Override
-    public void close() {
-        super.close();
-    }
 
     public SftpSessionPool(PooledObjectFactory<Session> factory) {
         super(factory);

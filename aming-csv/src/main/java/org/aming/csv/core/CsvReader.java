@@ -2,13 +2,16 @@ package org.aming.csv.core;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.aming.core.utils.CommonsUtils;
 import org.aming.csv.support.HeadersHolder;
 import org.aming.csv.support.LinesHolder;
 
 import com.opencsv.CSVReader;
+import org.aming.csv.utils.LinesHolderUtils;
 
 
 /**
@@ -19,6 +22,7 @@ public class CsvReader implements Closeable {
 	
 	private final Optional<CSVReader> csvReader;
 	private boolean closed = false;
+	private boolean ignoreCase = false;
     private HeadersHolder headersHolder;
     private LinesHolder linesHolder;
     
@@ -28,37 +32,28 @@ public class CsvReader implements Closeable {
     	}
     	
     	String[] lines = csvReader.get().readNext();
-    	if(lines != null && lines.length > 0) {
-    		int rowIndex = linesHolder.getRowIndex();
-    		linesHolder =  null;// LinesHolder.getInstance(lines, rowIndex + 1);
-    		if(rowIndex == 0) {
-    			initHeaders(lines);  
-    		}
-    		return true;
-    	} else {
-    		return false;
-    	}
+    	if (CommonsUtils.isNotEmpty(lines)) {
+            linesHolder = LinesHolderUtils.getLinesHolder(linesHolder, lines);
+
+            if (linesHolder.getIndex() == 1) {
+                headersHolder = HeadersHolder.getInstance(lines);
+            }
+
+            return true;
+        } else {
+    	    return false;
+        }
+
     }
 
     public String[] getHeaders() {
         if (headersHolder.getHeaders() == null) {
-            return null;
+            return new String[0];
         } else {
-            String[] clone = new String[headersHolder.getLength()];
-            System.arraycopy(headersHolder.getHeaders(), 0, clone, 0, headersHolder.getLength());
-            return clone;
+            return Arrays.copyOf(headersHolder.getHeaders(), headersHolder.getHeaders().length);
         }
     }
 
-    private void initHeaders(String[] lines) {
-        if(lines == null) {
-            throw new IllegalArgumentException("headers is required");
-        }
-
-        for(int i=0; i < lines.length; i++) {
-
-        }
-    }
     
     public int getIndex(String headerName) throws Exception {
         try {
@@ -69,17 +64,15 @@ public class CsvReader implements Closeable {
     }
     
     public int getRowIndex() {
-    	return linesHolder.getRowIndex();
+    	return linesHolder.getIndex();
     }
     
     public String[] getValues() {
     	String[] lines = linesHolder.getLines();
     	if(Objects.isNull(lines)) {
-    		return null;
+    		return new String[0];
     	} else {
-    		String[] clone = new String[lines.length];
-    		System.arraycopy(lines, 0,  clone, 0,  lines.length);
-    		return clone;
+    		return Arrays.copyOf(lines, lines.length);
     	}
     }
     
@@ -95,11 +88,11 @@ public class CsvReader implements Closeable {
     }
  
     
-    public CsvReader(CSVReader csvReader, boolean ignoreCaseHeader) {
+    public CsvReader(CSVReader csvReader, boolean ignoreCase) {
         super();
         this.csvReader = Optional.of(csvReader);
         this.linesHolder = LinesHolder.getInstance();
-        this.headersHolder = HeadersHolder.getHeadersHolder(ignoreCaseHeader);
+        this.ignoreCase = ignoreCase;
 
     }
 

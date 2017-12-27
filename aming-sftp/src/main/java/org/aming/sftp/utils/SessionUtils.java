@@ -39,10 +39,10 @@ public class SessionUtils {
 
     public static ChannelSftp openChannel(Session session) throws SftpAccessException {
         if(Objects.isNull(session)) {
-            throw new SftpAccessException("session is required");
+            throw SftpExceptionBuilder.buildSftpAccessException("session is required");
         }
         if(!session.isConnected()) {
-            throw new SftpAccessException("fail to get session from sftp server");
+            throw SftpExceptionBuilder.buildSftpAccessException("fail to get session from sftp server");
         }
         try {
             Channel channel = session.openChannel("sftp");
@@ -50,7 +50,7 @@ public class SessionUtils {
 
             return (ChannelSftp)channel;
         } catch (JSchException e) {
-            throw new SftpAccessException("fail to get channel from sftp server");
+            throw SftpExceptionBuilder.buildSftpAccessException("fail to get channel from sftp server");
         }
     }
 

@@ -39,8 +39,6 @@ public class SftpTemplate extends SftpAccessor implements SftpOperations{
             throw SftpExceptionBuilder.buildSftpAccessException("fail to upload file to sftp server");
         } finally {
             SessionUtils.releaseSession(channel, session, getSftpClientPool());
-            channel = null;
-            session = null;
         }
 
     }
@@ -66,8 +64,6 @@ public class SftpTemplate extends SftpAccessor implements SftpOperations{
             throw SftpExceptionBuilder.buildSftpAccessException("fail to download file form sftp server");
         } finally {
             SessionUtils.releaseSession(channel, session, getSftpClientPool());
-            channel = null;
-            session = null;
         }
     }
 }

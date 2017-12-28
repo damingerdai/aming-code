@@ -36,7 +36,7 @@ public class CsvReader implements Closeable {
             linesHolder = LinesHolderUtils.getLinesHolder(linesHolder, lines);
 
             if (linesHolder.getIndex() == 1) {
-                headersHolder = HeadersHolder.getInstance(lines);
+                headersHolder = HeadersHolder.getInstance(lines, ignoreCase);
             }
 
             return true;

@@ -165,30 +165,4 @@ public class DateUtils {
 		LocalDate  tempDate = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault()).toLocalDate();
 		return now.getYear() == tempDate.getYear() && now.getMonthValue() == tempDate.getMonthValue();
 	}
-	
-    public static void main(String[] args) {
-    	 List<Integer> list = new ArrayList<>();
-    	 list.add(1);
-    	 list.add(4);
-    	 list.add(null);
-    	 list.add(3);
-    	 list.add(null);
-    	 System.out.println(list);
-    	 list.sort(new Comparator<Integer>() {
-
-			@Override
-			public int compare(Integer p1, Integer p2) {
-				if (Objects.isNull(p1) && Objects.isNull(p2)) {
-					return 0;
-				} 
-				if (Objects.isNull(p1) && Objects.nonNull(p2)) {
-					return 1;
-				}
-				if (Objects.nonNull(p1) && Objects.isNull(p2)) {
-					return -1;
-				}
-				return p1-p2 >-0 ? 1 :-1;
-			}});
-    	 System.out.println(list);
-    }
 }

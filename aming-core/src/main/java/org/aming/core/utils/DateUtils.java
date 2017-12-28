@@ -11,6 +11,7 @@ import java.time.Year;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.time.chrono.ChronoLocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
@@ -20,6 +21,7 @@ import java.time.temporal.TemporalQueries;
 import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -30,6 +32,7 @@ import static java.time.temporal.ChronoUnit.DAYS;
 import static java.time.temporal.ChronoUnit.HOURS;
 import static java.time.temporal.ChronoUnit.MONTHS;
 import static java.time.temporal.ChronoUnit.YEARS;
+import static java.time.temporal.ChronoUnit.WEEKS;
 
 /**
  * @author daming
@@ -141,12 +144,51 @@ public class DateUtils {
     public static Date getEndOfNextNaturalYear() {
         return Date.from(ZonedDateTime.of(LocalDateTime.of(LocalDate.of(getYear() + 1, 12, 31), LocalTime.MAX), ZoneId.systemDefault()).toInstant());
     }
+    
+    public static int getNaturalWeek(Date date) {
+    	return LocalDateTime.ofInstant(date.toInstant(), ZoneId.ofOffset("GMT", ZoneOffset.ofHours(8))).get(ChronoField.ALIGNED_WEEK_OF_YEAR);
+    }
+    
+    public static boolean isSameDay(Date date) {
+    	if (Objects.isNull(date)) {
+    		return false;
+    	}
+    	return LocalDate.now().isEqual(ChronoLocalDate.from(LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault())));
+    }
+    
+    public static boolean isSameNaturalWeek(Date date) {
+		return getNaturalWeek(date) == getNaturalWeek(new Date());
+	}
 
+	public static boolean isSameNaturalMonth(Date date) {
+		LocalDate now = LocalDate.now();
+		LocalDate  tempDate = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault()).toLocalDate();
+		return now.getYear() == tempDate.getYear() && now.getMonthValue() == tempDate.getMonthValue();
+	}
+	
     public static void main(String[] args) {
-        Date date = Date.from(ZonedDateTime.of( LocalDateTime.of(
-                LocalDate.of(getYear() + 1, 12,31),
-                LocalTime.MAX),ZoneId.systemDefault()).toInstant());
-        System.out.println(format(date));
+    	 List<Integer> list = new ArrayList<>();
+    	 list.add(1);
+    	 list.add(4);
+    	 list.add(null);
+    	 list.add(3);
+    	 list.add(null);
+    	 System.out.println(list);
+    	 list.sort(new Comparator<Integer>() {
 
+			@Override
+			public int compare(Integer p1, Integer p2) {
+				if (Objects.isNull(p1) && Objects.isNull(p2)) {
+					return 0;
+				} 
+				if (Objects.isNull(p1) && Objects.nonNull(p2)) {
+					return 1;
+				}
+				if (Objects.nonNull(p1) && Objects.isNull(p2)) {
+					return -1;
+				}
+				return p1-p2 >-0 ? 1 :-1;
+			}});
+    	 System.out.println(list);
     }
 }

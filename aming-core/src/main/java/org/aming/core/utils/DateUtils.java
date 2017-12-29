@@ -145,10 +145,6 @@ public class DateUtils {
         return Date.from(ZonedDateTime.of(LocalDateTime.of(LocalDate.of(getYear() + 1, 12, 31), LocalTime.MAX), ZoneId.systemDefault()).toInstant());
     }
     
-    public static int getNaturalWeek(Date date) {
-    	return LocalDateTime.ofInstant(date.toInstant(), ZoneId.ofOffset("GMT", ZoneOffset.ofHours(8))).get(ChronoField.ALIGNED_WEEK_OF_YEAR);
-    }
-    
     public static boolean isSameDay(Date date) {
     	if (Objects.isNull(date)) {
     		return false;
@@ -156,9 +152,6 @@ public class DateUtils {
     	return LocalDate.now().isEqual(ChronoLocalDate.from(LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault())));
     }
     
-    public static boolean isSameNaturalWeek(Date date) {
-		return getNaturalWeek(date) == getNaturalWeek(new Date());
-	}
 
 	public static boolean isSameNaturalMonth(Date date) {
 		LocalDate now = LocalDate.now();

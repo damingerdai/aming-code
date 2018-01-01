@@ -1,5 +1,8 @@
 package org.aming.core.exceptions;
 
+import org.aming.core.log.AmingLogger;
+import org.aming.core.log.LoggerManager;
+
 import java.text.MessageFormat;
 
 /**
@@ -8,11 +11,16 @@ import java.text.MessageFormat;
  */
 public class ExceptionBuilder {
 
+    protected static final AmingLogger logger = LoggerManager.getLogger("error");
+
     public static AmingException buildAmingException(String message) {
-        return new AmingException(message);
+        AmingException result = new AmingException(message);
+        log(result);
+        return result;
     }
 
     public static AmingException buildAmingException(String format, Object...params) {
+
         return new AmingException(MessageFormat.format(format, params));
     }
 
@@ -33,5 +41,9 @@ public class ExceptionBuilder {
 
     public static RuntimeException buildRuntimeException(String format, Object...params) {
         return new RuntimeException(MessageFormat.format(format, params));
+    }
+
+    protected static void log(Throwable cause) {
+        logger.error("error message : {}, error cause : {}", cause.getMessage(), cause.getCause());
     }
 }

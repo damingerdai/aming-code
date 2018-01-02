@@ -41,6 +41,7 @@ public class CsvReader implements Closeable {
 
             return true;
         } else {
+    	    close();
             return false;
         }
     }
@@ -94,9 +95,12 @@ public class CsvReader implements Closeable {
         this.ignoreCase = ignoreCase;
     }
 
-	@Override
-	public void close() throws IOException {
-		 csvReader.get().close();
-		 this.closed = true;
-	}
+    @Override
+    public void close() throws IOException {
+        if (Objects.nonNull(csvReader) && csvReader.isPresent()) {
+            csvReader.get().close();
+
+        }
+        this.closed = true;
+    }
 }

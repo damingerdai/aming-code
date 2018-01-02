@@ -1,11 +1,13 @@
 package org.aming.ftp.utils;
 
 
+import org.aming.ftp.enums.FileType;
 import org.aming.ftp.exceptions.FtpException;
 import org.aming.ftp.exceptions.FtpExceptionBuilder;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.parser.FTPFileEntryParserFactory;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Objects;
@@ -84,6 +86,15 @@ public class FtpClientBuilder {
         try {
             ftpClient.setReportActiveExternalIPAddress(ipAddress);
         } catch (UnknownHostException ex) {
+            throw FtpExceptionBuilder.buildFtpException(ex.getMessage(), ex);
+        }
+        return this;
+    }
+
+    public FtpClientBuilder setFileType(FileType fileType) throws FtpException {
+        try {
+            ftpClient.setFileType(fileType.getType());
+        } catch (IOException ex) {
             throw FtpExceptionBuilder.buildFtpException(ex.getMessage(), ex);
         }
         return this;

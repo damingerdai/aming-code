@@ -158,4 +158,22 @@ public class DateUtils {
 		LocalDate  tempDate = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault()).toLocalDate();
 		return now.getYear() == tempDate.getYear() && now.getMonthValue() == tempDate.getMonthValue();
 	}
+	
+	public static Date buildDate(int year, int month, int dayOfMonth) {
+		if (year > 0 && month > 0 && dayOfMonth > 0) {
+			Calendar calendar = Calendar.getInstance();
+			calendar.set(year, month - 1, dayOfMonth, 0, 0, 0);
+			return calendar.getTime();
+		} else {
+			return null;
+		}
+	}
+	
+	public static int getLastDay(int year, int month) {
+		return Month.of(month).length(Year.isLeap(year));
+	}
+	
+	public static void main(String[] args) {
+		 System.out.println(getLastDay(2000,2));
+	}
 }

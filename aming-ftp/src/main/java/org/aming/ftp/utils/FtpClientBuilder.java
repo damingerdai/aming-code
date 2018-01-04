@@ -1,7 +1,10 @@
 package org.aming.ftp.utils;
 
 
+import org.aming.ftp.enums.FileTransferMode;
 import org.aming.ftp.enums.FileType;
+import org.aming.ftp.enums.Structure;
+import org.aming.ftp.enums.TextFormat;
 import org.aming.ftp.exceptions.FtpException;
 import org.aming.ftp.exceptions.FtpExceptionBuilder;
 import org.apache.commons.net.ftp.FTPClient;
@@ -100,10 +103,59 @@ public class FtpClientBuilder {
         return this;
     }
 
-    public static void main(String[] args) throws Exception {
-        String host = "https://www.baidu.com";
-        InetAddress inetAddress = InetAddress.getByName(host);
-        System.out.println(inetAddress.getHostName());
+    public FtpClientBuilder setFileType(FileType fileType, int formatOrByteSize) throws FtpException {
+        try {
+            ftpClient.setFileType(fileType.getType(), formatOrByteSize);
+        } catch (IOException ex) {
+            throw FtpExceptionBuilder.buildFtpException(ex.getMessage(), ex);
+        }
+        return this;
     }
 
+    public FtpClientBuilder setFileType(FileType fileType, TextFormat textFormat) throws FtpException {
+        try {
+            ftpClient.setFileType(fileType.getType(), textFormat.getType());
+        } catch (IOException ex) {
+            throw FtpExceptionBuilder.buildFtpException(ex.getMessage(), ex);
+        }
+        return this;
+    }
+
+    public FtpClientBuilder setFileStructure(Structure structure) throws FtpException {
+        try {
+            ftpClient.setFileStructure(structure.getType());
+        } catch (IOException ex) {
+            throw FtpExceptionBuilder.buildFtpException(ex.getMessage(), ex);
+        }
+        return this;
+    }
+
+    public FtpClientBuilder setFileTransferMode(FileTransferMode mode) throws FtpException {
+        try {
+           ftpClient.setFileTransferMode(mode.getMode());
+        } catch (IOException ex) {
+            throw FtpExceptionBuilder.buildFtpException(ex.getMessage(), ex);
+        }
+        return this;
+    }
+
+    public boolean login(String username, String password) throws FtpException {
+        try {
+            return ftpClient.login(username, password);
+        } catch (IOException ex) {
+            throw FtpExceptionBuilder.buildFtpException(ex.getMessage(), ex);
+        }
+    }
+
+    public boolean login(String username, String password, String account) throws FtpException {
+        try {
+            return ftpClient.login(username, password, account);
+        } catch (IOException ex) {
+            throw FtpExceptionBuilder.buildFtpException(ex.getMessage(), ex);
+        }
+    }
+
+    public FTPClient build() {
+        return ftpClient;
+    }
 }

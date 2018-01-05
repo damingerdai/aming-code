@@ -5,8 +5,10 @@ package org.aming.ftp.exceptions;
  * @version 2018/1/2.
  */
 public class FtpException extends Exception {
+ 
+	private static final long serialVersionUID = 4345643622854258621L;
 
-    public FtpException(String message) {
+	public FtpException(String message) {
         super(message);
     }
 

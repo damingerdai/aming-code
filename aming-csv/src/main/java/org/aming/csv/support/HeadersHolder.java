@@ -12,7 +12,9 @@ import java.util.Objects;
  */
 public final class HeadersHolder extends LinesHolder {
 
-    private String[] headers;
+	private static final long serialVersionUID = 7313843989327058169L;
+	
+	private String[] headers;
     private boolean ignoreCase = false;
     private Map<String,Integer> indexByName;
     

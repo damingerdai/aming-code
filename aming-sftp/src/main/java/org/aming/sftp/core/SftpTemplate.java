@@ -1,6 +1,5 @@
 package org.aming.sftp.core;
 
-import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.Session;
 import org.aming.core.utils.Assert;
@@ -27,7 +26,7 @@ public class SftpTemplate extends SftpAccessor implements SftpOperations{
         ChannelSftp channel = null;
         try {
             session = getSftpClientPool().borrowObject();
-
+            
             channel = SessionUtils.openChannel(session);
 
             channel.put(file.getAbsolutePath(), remotePath);

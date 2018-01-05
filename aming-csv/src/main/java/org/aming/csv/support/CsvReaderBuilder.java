@@ -1,5 +1,8 @@
 package org.aming.csv.support;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.Reader;
 import java.util.Objects;
 
@@ -13,6 +16,18 @@ import com.opencsv.ICSVParser;
 public class CsvReaderBuilder {
 	private final CSVReaderBuilder builder;
 	private boolean ignoreCaseHeader = true;
+	
+	public CsvReaderBuilder(final File file) {
+		if (Objects.isNull(file) || !file.exists()) {
+			throw new IllegalArgumentException("file is required");
+		}
+		try {
+			Reader reader = new FileReader(file);
+			this.builder = new CSVReaderBuilder(reader);
+		} catch (FileNotFoundException ex) {
+			throw new IllegalArgumentException("file is required", ex);
+		}
+	}
 
 	public CsvReaderBuilder(final Reader reader) {
 		if (Objects.isNull(reader)) {
